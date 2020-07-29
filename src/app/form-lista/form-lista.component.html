@@ -1,0 +1,95 @@
+<ion-content>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Informacion de la tienda
+        </mat-panel-title>
+        <mat-panel-description></mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="container-form">
+        <form [formGroup]="tiendaForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre de tienda</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="nombre" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredTiendas | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de compra</mat-label>
+            <input matInput [matDatepicker]="picker" (click)="picker.open()" formControlName="fecha"
+              placeholder="mm/dd/yyyy">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+
+        </form>
+      </div>
+
+    </mat-expansion-panel>
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Listado de productos
+        </mat-panel-title>
+        <mat-panel-description></mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <form [formGroup]="productsForm">
+          <h2>Productos</h2>
+          <div formArrayName="productos">
+            <div style="position: relative;" *ngFor="let item of productsControls.controls; let productIndex=index"
+              [formGroupName]="productIndex">
+
+              <div id="formProducts">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre de producto</mat-label>
+                  <input matInput type="text" formControlName="nombre" placeholder="Ingresar nombre de producto">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Unidad</mat-label>
+                  <input matInput type="number" formControlName="cantidad"
+                    placeholder="Ingresar cantidad de producto(kg, unidades)">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Precio</mat-label>
+                  <input matInput type="number" formControlName="precio" placeholder="Ingresar precio de producto">
+                </mat-form-field>
+              </div>
+
+              <div class="delete-btn-position">
+                <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
+                  <ion-fab-button size="small" (click)="deleteProduct(productIndex);" color="danger">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div style="margin: 20px 0 30px;">{{ this.productsForm.value | json }}</div>
+
+      <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button size="small" (click)="addProduct();">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div>
+    <button (click)="guardarCompra();">click aqui</button>
+  </div>
+
+</ion-content>

@@ -1,5 +1,7 @@
 {
   "name": "ListaCompras",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
